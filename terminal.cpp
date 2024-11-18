@@ -41,7 +41,7 @@ int main()
 	while (cin >> x >> y && x >= 0 && x < size && y >= 0 && y < size && !(x==0&&y==0) && !(x==size-1&&y==size-1)) 
 	{
 	    maze[x][y] = '#';
-	    reward[x][y] = -40;
+	    reward[x][y] = -25;
 	    cout << "继续输入障碍的横纵坐标（除起点和终点），输入其他字符退出：" << endl;
 	}
 	
