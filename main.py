@@ -120,7 +120,7 @@ class MazeApp:
             # 创建 Q 表窗口
             self.q_table_window = tk.Toplevel(self.root)
             self.q_table_window.title("Q-Table Viewer")
-            self.q_text = tk.Text(self.q_table_window, width=50, height=30)
+            self.q_text = tk.Text(self.q_table_window, width=70, height=30)
             self.q_text.pack()
 
             # 开始训练
@@ -158,7 +158,7 @@ class MazeApp:
         for state in range(self.q_table.shape[0]):
             row, col = divmod(state, self.env.size)
             q_values = self.q_table[state]
-            self.q_text.insert(tk.END, f"State ({row}, {col}): {q_values}\n")
+            self.q_text.insert(tk.END, f"   State ({row}, {col}): {q_values}\n")
         self.q_text.see(tk.END)  # 自动滚动到最后
 
     def train(self, episodes):
