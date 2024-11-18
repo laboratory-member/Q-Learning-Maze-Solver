@@ -41,55 +41,19 @@ int main()
 	while (cin >> x >> y && x >= 0 && x < size && y >= 0 && y < size && !(x==0&&y==0) && !(x==size-1&&y==size-1)) 
 	{
 	    maze[x][y] = '#';
-	    reward[x][y] = -10;
+	    reward[x][y] = -40;
 	    cout << "继续输入障碍的横纵坐标（除起点和终点），输入其他字符退出：" << endl;
 	}
 	
 	cout << "显示迷宫" << endl; 
-	for (int i=0;i<size;i++)
-	{
-		for(int j=0;j<size;j++)
-		{
-			if (maze[i][j] == 'S') {
-                cout << "\033[31m" << 'S' << "\033[0m"; // 红色
-            } else if (maze[i][j] == 'E') {
-                cout << "\033[31m" << 'E' << "\033[0m"; // 红色
-            } else if (maze[i][j] == 'x') {
-                cout << "\033[32m" << 'x' << "\033[0m"; // 绿色
-            } else if (maze[i][j] == '#') {
-                cout << "\033[33m" << '#' << "\033[0m"; // 黄色
-            } else {
-                cout << maze[i][j]; // 默认颜色
-            }
-            cout << ' ';
-		}
-		cout << endl;
-	}
+	draw(maze);
 	
 	if (bfs(size,maze,bfs_result)) 
 	{
 		train(size,episodes,maze,q_table,reward);
 		
 		cout << "显示迷宫" << endl; 
-		for (int i=0;i<size;i++)
-		{
-			for(int j=0;j<size;j++)
-			{
-				if (maze[i][j] == 'S') {
-	                cout << "\033[31m" << 'S' << "\033[0m"; // 红色
-	            } else if (maze[i][j] == 'E') {
-	                cout << "\033[31m" << 'E' << "\033[0m"; // 红色
-	            } else if (maze[i][j] == 'x') {
-	                cout << "\033[32m" << 'x' << "\033[0m"; // 绿色
-	            } else if (maze[i][j] == '#') {
-	                cout << "\033[33m" << '#' << "\033[0m"; // 黄色
-	            } else {
-	                cout << maze[i][j]; // 默认颜色
-	            }
-	            cout << ' ';
-			}
-			cout << endl;
-		}
+		draw(maze);
 		
 		cout << "bfs参考路径" <<endl;
 		vector<vector<char>> copy1 = maze; 
@@ -97,25 +61,7 @@ int main()
 		{
 			copy1[point.first][point.second] = 'x';
 		}
-		for (int i=0;i<size;i++)
-		{
-			for(int j=0;j<size;j++)
-			{
-				if (copy1[i][j] == 'S') {
-	                cout << "\033[31m" << 'S' << "\033[0m"; // 红色
-	            } else if (copy1[i][j] == 'E') {
-	                cout << "\033[31m" << 'E' << "\033[0m"; // 红色
-	            } else if (copy1[i][j] == 'x') {
-	                cout << "\033[32m" << 'x' << "\033[0m"; // 绿色
-	            } else if (copy1[i][j] == '#') {
-	                cout << "\033[33m" << '#' << "\033[0m"; // 黄色
-	            } else {
-	                cout << copy1[i][j]; // 默认颜色
-	            }
-	            cout << ' ';
-			}
-			cout << endl;
-		}
+		draw(copy1);
 		
 		cout << "Q-learning学习路径" <<endl;
 		vector<vector<char>> copy2 = maze; 
@@ -136,25 +82,7 @@ int main()
 		if (count==size*size) cout << "训练次数过少" << endl; 
 		else
 		{
-			for (int i=0;i<size;i++)
-			{
-				for(int j=0;j<size;j++)
-				{
-					if (copy2[i][j] == 'S') {
-		                cout << "\033[31m" << 'S' << "\033[0m"; // 红色
-		            } else if (copy2[i][j] == 'E') {
-		                cout << "\033[31m" << 'E' << "\033[0m"; // 红色
-		            } else if (copy2[i][j] == 'x') {
-		                cout << "\033[32m" << 'x' << "\033[0m"; // 绿色
-		            } else if (copy2[i][j] == '#') {
-		                cout << "\033[33m" << '#' << "\033[0m"; // 黄色
-		            } else {
-		                cout << copy2[i][j]; // 默认颜色
-		            }
-		            cout << ' ';
-				}
-				cout << endl;
-			}
+			draw(copy2);
 		}
 	}
 	
@@ -271,24 +199,22 @@ void train(int size, int episodes, vector<vector<char>> &maze, vector<vector<vec
     return;
 }
 
-void draw(const vector<vector<char>> &maze) {
-    for (int i = 0; i < maze.size(); i++) {
-        for (int j = 0; j < maze[i].size(); j++) {
-            if (maze[i][j] == 'S') {
-                cout << "\033[31m" << 'S' << "\033[0m"; // 红色
-            } else if (maze[i][j] == 'E') {
-                cout << "\033[31m" << 'E' << "\033[0m"; // 红色
-            } else if (maze[i][j] == 'x') {
-                cout << "\033[32m" << 'x' << "\033[0m"; // 绿色
-            } else if (maze[i][j] == '#') {
-                cout << "\033[33m" << '#' << "\033[0m"; // 黄色
-            } else {
-                cout << maze[i][j];
-            }
+void draw(const vector<vector<char>> &maze) 
+{
+    for (int i = 0; i < maze.size(); i++) 
+	{
+        for (int j = 0; j < maze[i].size(); j++) 
+		{
+            if (maze[i][j] == 'S') cout << "\033[31m" << 'S' << "\033[0m"; // 红色
+            else if (maze[i][j] == 'E') cout << "\033[31m" << 'E' << "\033[0m"; // 红色
+            else if (maze[i][j] == 'x') cout << "\033[32m" << 'x' << "\033[0m"; // 绿色
+            else if (maze[i][j] == '#') cout << "\033[33m" << '#' << "\033[0m"; // 黄色
+            else cout << maze[i][j];
             cout << ' ';
-        }
+    	}
         cout << endl;
     }
+    return; 
 }
 
 
