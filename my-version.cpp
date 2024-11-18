@@ -12,6 +12,10 @@ bool bfs(int size,vector<vector<char>> &maze,vector<pair<int,int>> &bfs_result) 
 void train(int size,int episodes,vector<vector<char>> &maze,vector<vector<vector<double>>> &q_table,vector<vector<int>> &reward);
 //Q-learning训练函数 
 
+void draw(const vector<vector<char>> &maze) ;
+//绘制图形 
+
+
 int main()
 {
 	cout << "输入迷宫尺寸（整数） ： ";
@@ -129,7 +133,7 @@ int main()
 	    	y = ny;
 	    	count++;
 		} 
-		if (count=size*size) cout << "训练次数过少" << endl; 
+		if (count==size*size) cout << "训练次数过少" << endl; 
 		else
 		{
 			for (int i=0;i<size;i++)
@@ -266,5 +270,26 @@ void train(int size, int episodes, vector<vector<char>> &maze, vector<vector<vec
     
     return;
 }
+
+void draw(const vector<vector<char>> &maze) {
+    for (int i = 0; i < maze.size(); i++) {
+        for (int j = 0; j < maze[i].size(); j++) {
+            if (maze[i][j] == 'S') {
+                cout << "\033[31m" << 'S' << "\033[0m"; // 红色
+            } else if (maze[i][j] == 'E') {
+                cout << "\033[31m" << 'E' << "\033[0m"; // 红色
+            } else if (maze[i][j] == 'x') {
+                cout << "\033[32m" << 'x' << "\033[0m"; // 绿色
+            } else if (maze[i][j] == '#') {
+                cout << "\033[33m" << '#' << "\033[0m"; // 黄色
+            } else {
+                cout << maze[i][j];
+            }
+            cout << ' ';
+        }
+        cout << endl;
+    }
+}
+
 
  
